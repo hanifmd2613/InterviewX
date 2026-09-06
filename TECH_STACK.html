@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technology Stack &amp; Architecture Specification — InterviewX Documentation</title>
+  <style>
+    :root {
+      --bg-canvas: #0B0F19;
+      --bg-surface: #111827;
+      --bg-card: #1F2937;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-indigo: #6366F1;
+      --accent-violet: #8B5CF6;
+      --accent-emerald: #34D399;
+      --accent-cyan: #06B6D4;
+      --border-color: #334155;
+      --code-bg: #0F172A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Header Nav Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #4F46E5, #9333EA);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: monospace;
+      font-weight: 700;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    .btn:hover {
+      background: var(--bg-card);
+      border-color: #475569;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4338CA, #6D28D9);
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-emerald:hover {
+      background: rgba(16, 185, 129, 0.25);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: #FFFFFF;
+      font-weight: 700;
+      margin-top: 1.8em;
+      margin-bottom: 0.6em;
+      line-height: 1.3;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-top: 0.5em;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: #E2E8F0;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+      color: #CBD5E1;
+    }
+
+    a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .anchor-link {
+      opacity: 0;
+      margin-left: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    h1:hover .anchor-link,
+    h2:hover .anchor-link,
+    h3:hover .anchor-link {
+      opacity: 0.6;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 1.2em;
+      color: #CBD5E1;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9em;
+      background: var(--code-bg);
+      color: #F472B6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .code-container {
+      background: #090D16;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1.5em 0;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      background: #131A2A;
+      border-bottom: 1px solid var(--border-color);
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #94A3B8;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: #1E293B;
+      color: #fff;
+    }
+
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: #E2E8F0;
+      font-size: 0.88rem;
+      display: block;
+      line-height: 1.5;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin: 1.5em 0;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      text-align: left;
+    }
+
+    th {
+      background: #131A2A;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #E2E8F0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #CBD5E1;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border-color);
+      margin: 2.5em 0;
+    }
+
+    .inline-img {
+      margin: 4px 4px 4px 0;
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      .top-bar, .copy-btn, .anchor-link {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+      }
+      .container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      h1, h2, h3, h4 {
+        color: #000000 !important;
+      }
+      p, li, td {
+        color: #333333 !important;
+      }
+      .code-container {
+        background: #F8FAFC !important;
+        border: 1px solid #CBD5E1 !important;
+      }
+      pre code {
+        color: #0F172A !important;
+      }
+      th {
+        background: #F1F5F9 !important;
+        color: #000000 !important;
+        border-bottom: 1px solid #CBD5E1 !important;
+      }
+      td {
+        border-bottom: 1px solid #E2E8F0 !important;
+      }
+      code {
+        background: #F1F5F9 !important;
+        color: #B91C1C !important;
+        border: 1px solid #E2E8F0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <a href="/" class="brand-logo">
+      <span class="brand-badge">IX</span>
+      <span>InterviewX Documentation</span>
+    </a>
+    <div class="action-group">
+      <a href="/downloads/TECH_STACK.md" download class="btn btn-emerald">
+        <span>⬇️ Download Markdown (.md)</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <span>🖨️ Print / Save as PDF</span>
+      </button>
+      <a href="/downloads/InterviewX_Documentation_Bundle.zip" download class="btn">
+        <span>📦 Download All (.zip)</span>
+      </a>
+      <a href="/docs" class="btn">
+        <span>📚 Docs Hub</span>
+      </a>
+      <a href="/" class="btn">
+        <span>🏠 Home</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 id="interviewx--comprehensive-technology-stack--architecture-specification">InterviewX — Comprehensive Technology Stack & Architecture Specification 🛠️📐 <a class="anchor-link" href="#interviewx--comprehensive-technology-stack--architecture-specification">#</a></h1>
+<p>This document provides an exhaustive, enterprise-grade specification of the technology stack, software architecture, computational pipelines, and engineering design patterns implemented across the <strong>InterviewX</strong> autonomous multimodal technical interview platform.</p>
+<hr />
+<h2 id="table-of-contents">📑 Table of Contents <a class="anchor-link" href="#table-of-contents">#</a></h2>
+<ol>
+<li><a href="#1-high-level-architecture-overview" target="_blank" rel="noopener noreferrer">High-Level Architecture Overview</a></li>
+<li><a href="#2-end-to-end-system-architecture-diagram" target="_blank" rel="noopener noreferrer">End-to-End System Architecture Diagram</a></li>
+<li><a href="#3-frontend-application-stack" target="_blank" rel="noopener noreferrer">Frontend Application Stack</a></li>
+<li><a href="#4-client-side-computer-vision--multimodal-edge-ai" target="_blank" rel="noopener noreferrer">Client-Side Computer Vision & Multimodal Edge AI</a></li>
+<li><a href="#5-audio-engineering--speech-synthesis-architecture" target="_blank" rel="noopener noreferrer">Audio Engineering & Speech Synthesis Architecture</a></li>
+<li><a href="#6-backend-api--asynchronous-microservices" target="_blank" rel="noopener noreferrer">Backend API & Asynchronous Microservices</a></li>
+<li><a href="#7-large-language-model-llm--generative-ai-infrastructure" target="_blank" rel="noopener noreferrer">Large Language Model (LLM) & Generative AI Infrastructure</a></li>
+<li><a href="#8-computational-linguistics--pacing-analytics" target="_blank" rel="noopener noreferrer">Computational Linguistics & Pacing Analytics</a></li>
+<li><a href="#9-document-generation--certified-pdf-export-engine" target="_blank" rel="noopener noreferrer">Document Generation & Certified PDF Export Engine</a></li>
+<li><a href="#10-security-data-privacy--edge-governance" target="_blank" rel="noopener noreferrer">Security, Data Privacy & Edge Governance</a></li>
+<li><a href="#11-hardware-os--browser-compatibility-matrix" target="_blank" rel="noopener noreferrer">Hardware, OS & Browser Compatibility Matrix</a></li>
+<li><a href="#12-full-dependency-manifest-with-exact-versions" target="_blank" rel="noopener noreferrer">Full Dependency Manifest with Exact Versions</a></li>
+</ol>
+<hr />
+<h2 id="1-high-level-architecture-overview">1. High-Level Architecture Overview <a class="anchor-link" href="#1-high-level-architecture-overview">#</a></h2>
+<p>InterviewX is built on a <strong>hybrid edge-cloud architecture</strong>:</p>
+<ul>
+<li><strong>Edge Layer (Client Browser)</strong>: Real-time computer vision (MediaPipe FaceMesh), raw audio processing (Web Audio API RMS analysis), speech synthesis (Web Speech API), and camera snapshot capture operate <strong>100% on-device</strong> using WebAssembly (Wasm) and WebGL. No raw video feed ever leaves the candidate's machine, ensuring zero video latency and complete candidate privacy.</li>
+<li><strong>Cloud/Server Layer (FastAPI & Google Gemini)</strong>: Deep reasoning, question curriculum generation, speech-to-text fallback, multimodal audio comprehension, and multi-factor answer evaluations are processed asynchronously via <strong>FastAPI</strong> and <strong>Google Gemini 2.5 Flash</strong>.</li>
+</ul>
+<hr />
+<h2 id="2-end-to-end-system-architecture-diagram">2. End-to-End System Architecture Diagram <a class="anchor-link" href="#2-end-to-end-system-architecture-diagram">#</a></h2>
+<div class="code-container"><div class="code-header"><span>code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-">+-----------------------------------------------------------------------------------------+
+|                                    CANDIDATE BROWSER                                    |
+|                                                                                         |
+|  +---------------------+   +-----------------------+   +-----------------------------+  |
+|  |   HTML5 Camera      |   |   HTML5 Microphone    |   |   User Interface &amp; State    |  |
+|  |  (WebcamTracker)    |   |  (useSpeechAnalysis)  |   |    (Next.js 14 App Router)  |  |
+|  +----------+----------+   +-----------+-----------+   +--------------+--------------+  |
+|             |                          |                              |                 |
+|             v                          v                              v                 |
+|  +---------------------+   +-----------------------+   +-----------------------------+  |
+|  | MediaPipe FaceMesh  |   | Web Audio Analyser    |   |  Web Speech Synthesis       |  |
+|  | • 468 3D Landmarks  |   | • 2048 FFT TimeDomain |   |  • Executive Prosody (0.94x)|  |
+|  | • Iris Gaze Vectors |   | • RMS Amplitude Meter |   |  • Acronym Phonetic Expander|  |
+|  | • Head Pose &amp; Tilt  |   | • Dynamic Waveform    |   |  • Async Queue Debounce     |  |
+|  | • Snapshot Capture  |   | • Web Speech STT      |   +-----------------------------+  |
+|  +----------+----------+   +-----------+-----------+                  |                 |
+|             |                          |                              |                 |
+|             +------------+-------------+                              |                 |
+|                          | (Transcripts, Cadence, Snapshot)           |                 |
++--------------------------|--------------------------------------------|-----------------+
+                           |                                            |
+                  REST (HTTP) / WebSocket                               |
+                           |                                            |
++--------------------------v--------------------------------------------v-----------------+
+|                                 FASTAPI APPLICATION SERVER                              |
+|                                     (Python 3.12 / ASGI)                                |
+|                                                                                         |
+|  +--------------------+  +----------------------+  +---------------------------------+  |
+|  | REST Endpoints     |  | WebSocket Router     |  | Pydantic v2 Schemas             |  |
+|  | • /api/init-session|  | • /ws/interview      |  | • InitSessionRequest            |  |
+|  | • /api/evaluate    |  | • Real-time turns    |  | • EvaluateAnswerRequest         |  |
+|  | • /api/transcribe  |  | • Bi-directional sync|  | • QuestionBreakdownRequest      |  |
+|  +---------+----------+  +----------+-----------+  +----------------+----------------+  |
+|            |                        |                               |                   |
+|            +------------------------+-------------------------------+                   |
+|                                     |                                                   |
+|                                     v                                                   |
+|  +-----------------------------------------------------------------------------------+  |
+|  | Computational Analytics Engine (server/services/analytics.py)                     |  |
+|  | • WPM Pacing Calculator (120-165 WPM target)                                      |  |
+|  | • Filler Word Detection Regex (&quot;um&quot;, &quot;uh&quot;, &quot;like&quot;, &quot;basically&quot;, &quot;literally&quot;)      |  |
+|  | • 4-Tier Weighted Rubric (40% Tech, 30% Delivery, 20% JD, 10% Composure)         |  |
+|  +----------------------------------+------------------------------------------------+  |
+|                                     |                                                   |
++-------------------------------------|---------------------------------------------------+
+                                      |
+                              Official SDK Call
+                                      |
++-------------------------------------v---------------------------------------------------+
+|                            GOOGLE GEMINI 2.5 FLASH                                      |
+|                                (google-genai SDK)                                       |
+|                                                                                         |
+|  • Adaptive 5-Question Dynamic Plan Generation (calibrated to role, level &amp; JD)         |
+|  • Multi-Tier Real-Time Answer Critique &amp; Scoring                                       |
+|  • Exemplary Senior/Staff &quot;Better Answer&quot; Phrasing Generation                           |
+|  • Conversational Follow-Up Probe Formulation                                           |
+|  • Plain-English Question Breakdown &amp; Icebreaker Sentence Generation                    |
+|  • Multimodal Audio-to-Text Transcription Fallback                                      |
+|  • Comprehensive 6-Axis Competency Radar &amp; Executive Report Synthesis                   |
++-----------------------------------------------------------------------------------------+</code></pre></div>
+<hr />
+<h2 id="3-frontend-application-stack">3. Frontend Application Stack <a class="anchor-link" href="#3-frontend-application-stack">#</a></h2>
+<h3 id="core-framework--runtime">Core Framework & Runtime <a class="anchor-link" href="#core-framework--runtime">#</a></h3>
+<ul>
+<li><strong>Next.js 14 (<code>14.2.15</code>)</strong>:</li>
+<li>React framework utilizing modern <strong>App Router</strong> (<code>app/page.tsx</code>, <code>app/interview/page.tsx</code>, <code>app/report/page.tsx</code>).</li>
+<li>Strict separation of Client Components (<code>"use client"</code>) for stateful hardware access (camera, microphone, speech synthesis) and Server Components.</li>
+<li>Built-in route compilation and static page pre-rendering.</li>
+<li><strong>React 18 (<code>18.3.1</code>) & React DOM (<code>18.3.1</code>)</strong>:</li>
+<li>Concurrent Mode and optimized re-rendering hooks (<code>useRef</code>, <code>useCallback</code>, <code>useMemo</code>).</li>
+<li>Isolated custom hooks for clean domain-driven state encapsulation.</li>
+<li><strong>TypeScript 5.6 (<code>5.6.3</code>)</strong>:</li>
+<li>End-to-end static type verification.</li>
+<li>Comprehensive TypeScript schemas in <code>types/interview.ts</code> covering sessions, turns, critiques, radar metrics, and evaluation summaries.</li>
+</ul>
+<h3 id="ui-styling--design-system">UI Styling & Design System <a class="anchor-link" href="#ui-styling--design-system">#</a></h3>
+<ul>
+<li><strong>Tailwind CSS (<code>3.4.14</code>)</strong>:</li>
+<li>Utility-first CSS architecture with custom color tokens.</li>
+<li><strong>Theme</strong>: Enterprise Midnight Navy (<code>#0B0F19</code>), Slate Card Surfaces (<code>#111827</code>), Emerald Highlights (<code>#34D399</code>), Indigo Accents (<code>#6366F1</code>), and Cyan Highlights (<code>#06B6D4</code>).</li>
+<li><strong>PostCSS (<code>8.4.47</code>) & Autoprefixer (<code>10.4.20</code>)</strong>: Cross-browser CSS AST transformation and prefixing.</li>
+<li><strong>clsx (<code>2.1.1</code>) & tailwind-merge (<code>2.5.4</code>)</strong>: Conditional class composition without specificity collisions.</li>
+<li><strong>Lucide React (<code>0.453.0</code>)</strong>: High-performance SVG iconography across the entire application interface.</li>
+<li><strong>Framer Motion (<code>11.11.9</code>)</strong>: Smooth GPU-accelerated UI transitions, camera shutter flash animations, modal popups, and radar reveals.</li>
+</ul>
+<hr />
+<h2 id="4-client-side-computer-vision--multimodal-edge-ai">4. Client-Side Computer Vision & Multimodal Edge AI <a class="anchor-link" href="#4-client-side-computer-vision--multimodal-edge-ai">#</a></h2>
+<h3 id="facemesh--attention-tracking">FaceMesh & Attention Tracking <a class="anchor-link" href="#facemesh--attention-tracking">#</a></h3>
+<ul>
+<li><strong>MediaPipe FaceMesh (<code>@mediapipe/face_mesh</code> v0.4.1633559619)</strong>:</li>
+<li>Detects <strong>468 3D facial landmarks</strong> in real-time at 30+ FPS via WebGL/Wasm acceleration.</li>
+<li><strong>Gaze Vector Estimation</strong>: Tracks iris landmarks (468–472) relative to outer and inner eye corners (sclera) to quantify candidate eye contact ratio.</li>
+<li><strong>Head Pose (Pitch, Yaw, Roll)</strong>: Trigonometrically computes head alignment from nose bridge (landmark 1), forehead (landmark 10), and chin (landmark 152) to identify slouching, distraction, or looking away.</li>
+<li><strong>MediaPipe Camera Utilities (<code>@mediapipe/camera_utils</code> v0.3.1675466862)</strong>:</li>
+<li>Handles frame scheduling and camera acquisition via <code>HTMLVideoElement</code>.</li>
+</ul>
+<h3 id="candidate-photo-capture--verification-pipeline">Candidate Photo Capture & Verification Pipeline <a class="anchor-link" href="#candidate-photo-capture--verification-pipeline">#</a></h3>
+<ul>
+<li><strong>Real-Time Webcam Shutter</strong>:</li>
+<li>Live video stream captured to an in-memory <code><canvas></code>.</li>
+<li>Triggered manually via "Take Photo for Report" button or automatically upon first confident face detection.</li>
+<li>Generates instant visual shutter flash animation (<code>framer-motion</code>).</li>
+<li>Serializes verified photo as JPEG DataURL and persists in <code>localStorage</code> under <code>interviewx_candidate_photo</code>.</li>
+<li>Automatically loads candidate snapshot into Profile Card and certified PDF report.</li>
+<li><strong>Movable & Resizable Picture-in-Picture (PIP)</strong>:</li>
+<li>Candidates can drag the video tracker anywhere on screen or toggle standard vs. expanded modes to maintain comfort during technical discussions.</li>
+</ul>
+<hr />
+<h2 id="5-audio-engineering--speech-synthesis-architecture">5. Audio Engineering & Speech Synthesis Architecture <a class="anchor-link" href="#5-audio-engineering--speech-synthesis-architecture">#</a></h2>
+<h3 id="real-time-audio-analysis--volume-visualization">Real-Time Audio Analysis & Volume Visualization <a class="anchor-link" href="#real-time-audio-analysis--volume-visualization">#</a></h3>
+<ul>
+<li><strong>Web Audio API</strong>:</li>
+<li><code>AudioContext</code> operating at native hardware sample rates (44.1 kHz / 48 kHz).</li>
+<li><code>MediaStreamAudioSourceNode</code> capturing clean microphone input stream.</li>
+<li><code>AnalyserNode</code> configured with <code>fftSize = 2048</code> and <code>smoothingTimeConstant = 0.8</code>.</li>
+<li><strong>Time-Domain RMS & Peak Detection</strong>:</li>
+<li>Employs <code>analyser.getByteTimeDomainData()</code> to measure real-time vocal deviation from baseline (128).</li>
+<li>Translates acoustic energy into a normalized 0–100% volume level, powering responsive animated waveform visualizer bars.</li>
+<li><strong>macOS / Chromium Audio Graph Safeguard</strong>:</li>
+<li>Routes analyser through a <code>GainNode</code> with <code>gain = 0</code> directly to <code>audioCtx.destination</code>. This prevents Chromium from suspending or throttling the audio graph on macOS while ensuring zero acoustic feedback.</li>
+</ul>
+<h3 id="dual-engine-speech-to-text-stt">Dual-Engine Speech-to-Text (STT) <a class="anchor-link" href="#dual-engine-speech-to-text-stt">#</a></h3>
+<ul>
+<li><strong>Engine A: Browser Web Speech API (<code>SpeechRecognition</code> / <code>webkitSpeechRecognition</code>)</strong>:</li>
+<li>Low-latency continuous streaming transcription.</li>
+<li>Emits interim and final transcripts directly into the candidate answer buffer.</li>
+<li><strong>Engine B: Gemini 2.5 Flash Cloud Audio Transcriber (Automatic Fallback)</strong>:</li>
+<li>If the browser lacks Web Speech support, encounters cloud network timeouts, or mic recognition stalls, a background <code>MediaRecorder</code> captures audio slices (<code>audio/webm;codecs=opus</code> or <code>audio/mp4</code>).</li>
+<li>Audio data is base64 encoded and sent to <code>/api/transcribe-audio</code> where Google Gemini 2.5 Flash transcribes the spoken response with 100% reliability.</li>
+</ul>
+<h3 id="senior-interviewer-voice-synthesis-tts">Senior Interviewer Voice Synthesis (TTS) <a class="anchor-link" href="#senior-interviewer-voice-synthesis-tts">#</a></h3>
+<ul>
+<li><strong>Web Speech Synthesis API (<code>window.speechSynthesis</code>)</strong>:</li>
+<li><strong>Prosody Tuning</strong>: Custom delivery rate of <code>0.94x</code> with natural cadence and pitch (<code>1.0</code>).</li>
+<li><strong>Acronym Phonetic Parser</strong>: Automatically pre-processes technical jargon into natural phonetic units (e.g., <code>API</code> -> <code>A.P.I.</code>, <code>CI/CD</code> -> <code>C.I./C.D.</code>, <code>SQL</code> -> <code>sequel</code>, <code>K8s</code> -> <code>Kubernetes</code>, <code>PostgreSQL</code> -> <code>Postgres-Q-L</code>).</li>
+<li><strong>Chrome Queue Debounce Fix</strong>: Prevents Chromium's known speech cancellation race condition by executing a 50ms queue pause and explicit <code>speechSynthesis.resume()</code> call after <code>cancel()</code>.</li>
+<li><strong>Audio Pipeline Unlocking</strong>: Programmatic <code>unlockAudio()</code> initializes a silent buffer on first user click, satisfying browser Autoplay Policy restrictions.</li>
+<li><strong>Voice Tuning Studio</strong>: Candidate can audition and select between United States, British, or Australian executive voices.</li>
+</ul>
+<hr />
+<h2 id="6-backend-api--asynchronous-microservices">6. Backend API & Asynchronous Microservices <a class="anchor-link" href="#6-backend-api--asynchronous-microservices">#</a></h2>
+<h3 id="server-core">Server Core <a class="anchor-link" href="#server-core">#</a></h3>
+<ul>
+<li><strong>FastAPI (<code>0.115.0+</code> / <code>0.141.1</code>)</strong>:</li>
+<li>Asynchronous ASGI Python framework delivering sub-millisecond route handling.</li>
+<li>Native support for dependency injection, CORS middleware, and automated OpenAPI 3.1 Swagger documentation at <code>/docs</code>.</li>
+<li><strong>Uvicorn (<code>0.30.0+</code> / <code>0.52.4</code>)</strong>:</li>
+<li>Enterprise ASGI server running on <code>uvloop</code> (high-performance libuv event loop wrapper) and <code>httptools</code>.</li>
+<li><strong>WebSockets (<code>12.0+</code> / <code>16.1.1</code>)</strong>:</li>
+<li>Low-latency full-duplex WebSocket endpoint (<code>/ws/interview</code>) for real-time room communication, turn events, and status heartbeats.</li>
+<li><strong>Pydantic v2 (<code>2.7.0+</code> / <code>2.13.5</code>)</strong>:</li>
+<li>Ultra-fast C-extension based data validation.</li>
+<li>Strict type coercion and runtime schema validation for all API inputs and outputs.</li>
+<li><strong>HTTPX (<code>0.27.0+</code> / <code>0.28.1</code>)</strong>: Non-blocking asynchronous HTTP client for external service communication.</li>
+<li><strong>Python Dotenv (<code>1.0.0+</code> / <code>1.2.3</code>)</strong>: Secure environment variable loading isolating <code>GEMINI_API_KEY</code>.</li>
+</ul>
+<h3 id="rest-api-endpoints-specification">REST API Endpoints Specification <a class="anchor-link" href="#rest-api-endpoints-specification">#</a></h3>
+<div class="table-responsive"><table>
+<thead><tr>
+<th>Method</th>
+<th>Route</th>
+<th>Request Body</th>
+<th>Response Payload</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/init-session</code></td>
+<td><code>InitSessionRequest</code></td>
+<td><code>SessionData</code></td>
+<td>Generates 5-question interview curriculum tailored to role and seniority</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/evaluate-answer</code></td>
+<td><code>EvaluateAnswerRequest</code></td>
+<td><code>TurnEvaluation</code></td>
+<td>Instant critique covering technical depth, relevance, communication, and model answer</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/conversational-turn</code></td>
+<td><code>ConversationalTurnRequest</code></td>
+<td><code>ConversationalTurnResponse</code></td>
+<td>Generates conversational interviewer speech and contextual follow-up probes</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/explain-question</code></td>
+<td><code>QuestionBreakdownRequest</code></td>
+<td><code>QuestionBreakdownResponse</code></td>
+<td>Generates plain-English question intent and suggested conversational opener</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/clarify-doubt</code></td>
+<td><code>DoubtRequest</code></td>
+<td><code>DoubtResponse</code></td>
+<td>Interactive doubt resolution assistant answering candidate questions mid-interview</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/transcribe-audio</code></td>
+<td><code>TranscribeAudioRequest</code></td>
+<td><code>TranscribeAudioResponse</code></td>
+<td>Multimodal speech-to-text audio transcription powered by Gemini 2.5 Flash</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/final-report</code></td>
+<td><code>FinalReportRequest</code></td>
+<td><code>FinalReport</code></td>
+<td>Compiles full evaluation report, 6-axis radar metrics, and overall hire recommendation</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/session/{id}</code></td>
+<td>Path param <code>id</code></td>
+<td><code>SessionData</code></td>
+<td>Retrieves active session state and question history</td>
+</tr>
+</tbody></table></div>
+<hr />
+<h2 id="7-large-language-model-llm--generative-ai-infrastructure">7. Large Language Model (LLM) & Generative AI Infrastructure <a class="anchor-link" href="#7-large-language-model-llm--generative-ai-infrastructure">#</a></h2>
+<h3 id="foundation-model">Foundation Model <a class="anchor-link" href="#foundation-model">#</a></h3>
+<ul>
+<li><strong>Google Gemini 2.5 Flash (<code>gemini-2.5-flash</code>)</strong>:</li>
+<li>Integrated via the official <strong><code>google-genai</code> SDK (<code>>=1.0.0</code>)</strong>.</li>
+<li>Optimized for ultra-low time-to-first-token (TTFT) and multimodal audio/text processing.</li>
+</ul>
+<h3 id="prompt-engineering-architecture">Prompt Engineering Architecture <a class="anchor-link" href="#prompt-engineering-architecture">#</a></h3>
+<ol>
+<li><strong>Curriculum Synthesis</strong>:</li>
+</ol>
+<ul>
+<li>Analyzes target role, seniority level (Junior, Mid, Senior, Staff/Lead), and optional job description text.</li>
+<li>Generates a balanced 5-question technical interview progression:</li>
+<li>Question 1: System architecture & fundamentals.</li>
+<li>Question 2: Deep technical domain mechanics.</li>
+<li>Question 3: Real-world scalability, performance, or concurrency challenge.</li>
+<li>Question 4: Production failure debugging & edge cases.</li>
+<li>Question 5: Trade-offs, design philosophy, or leadership perspective.</li>
+</ul>
+<ol>
+<li><strong>Multi-Factor Turn Evaluation</strong>:</li>
+</ol>
+<ul>
+<li>Structured JSON output format via Pydantic model parsing.</li>
+<li>Evaluates technical accuracy, missing architectural considerations, and concrete improvements.</li>
+<li>Produces a Senior/Staff-level <strong>"Better Answer"</strong> demonstrating optimal phrasing and technical conciseness.</li>
+</ul>
+<ol>
+<li><strong>Conversational Interviewer Persona</strong>:</li>
+</ol>
+<ul>
+<li>Emulates an experienced engineering leader (empathetic, inquisitive, rigorous).</li>
+<li>Generates dynamic bridge transitions (e.g., <em>"That's a solid point on indexing; let's drill deeper into how that impacts write amplification..."</em>).</li>
+</ul>
+<ol>
+<li><strong>Multimodal Audio STT</strong>:</li>
+</ol>
+<ul>
+<li>Ingests raw audio base64 buffers directly in multimodal prompts.</li>
+<li>Accurately transcribes technical terms, framework names, and code syntax that traditional STT engines mishear.</li>
+</ul>
+<hr />
+<h2 id="8-computational-linguistics--pacing-analytics">8. Computational Linguistics & Pacing Analytics <a class="anchor-link" href="#8-computational-linguistics--pacing-analytics">#</a></h2>
+<p>Located in <code>server/services/analytics.py</code>:</p>
+<h3 id="pacing--cadence-analytics">Pacing & Cadence Analytics <a class="anchor-link" href="#pacing--cadence-analytics">#</a></h3>
+<ul>
+<li><strong>Words-Per-Minute (WPM) Calculator</strong>:</li>
+<li>Evaluates words spoken per unit time against an industry-standard technical presentation benchmark:</li>
+<li><code>< 100 WPM</code>: Hesitant / overly delayed.</li>
+<li><code>120 – 165 WPM</code>: <strong>Optimal executive technical delivery</strong>.</li>
+<li><code>> 180 WPM</code>: Rushed delivery; may reduce listener comprehension.</li>
+</ul>
+<h3 id="verbal-filler-detection">Verbal Filler Detection <a class="anchor-link" href="#verbal-filler-detection">#</a></h3>
+<ul>
+<li><strong>Multi-Word Regex Pattern Matching</strong>:</li>
+<li>Scans candidate answer transcripts for cognitive verbal fillers:</li>
+<li><code>"um"</code>, <code>"uh"</code>, <code>"er"</code>, <code>"ah"</code></li>
+<li><code>"like"</code>, <code>"basically"</code>, <code>"literally"</code></li>
+<li><code>"you know"</code>, <code>"sort of"</code>, <code>"kind of"</code></li>
+<li>Calculates <strong>Filler Density Ratio</strong> (fillers per 100 words) and penalizes delivery score accordingly.</li>
+</ul>
+<h3 id="4-tier-weighted-scoring-rubric">4-Tier Weighted Scoring Rubric <a class="anchor-link" href="#4-tier-weighted-scoring-rubric">#</a></h3>
+<ul>
+<li><strong>40% Technical Depth & Architecture</strong>: Correctness, systems thinking, algorithmic complexity, trade-off analysis.</li>
+<li><strong>30% Communication Delivery & Cadence</strong>: Pacing, absence of fillers, clarity, structure.</li>
+<li><strong>20% Job Description Relevance</strong>: Alignment with required tech stack, role requirements, and domain focus.</li>
+<li><strong>10% Composure & Eye Contact</strong>: MediaPipe-measured visual gaze ratio, camera confidence, and posture stability.</li>
+</ul>
+<hr />
+<h2 id="9-document-generation--certified-pdf-export-engine">9. Document Generation & Certified PDF Export Engine <a class="anchor-link" href="#9-document-generation--certified-pdf-export-engine">#</a></h2>
+<h3 id="rendering-pipeline">Rendering Pipeline <a class="anchor-link" href="#rendering-pipeline">#</a></h3>
+<ul>
+<li><strong>html2canvas (<code>1.4.1</code>)</strong>:</li>
+<li>Rasterizes the DOM node of the evaluation report into a high-resolution canvas.</li>
+<li><strong><code>onclone</code> Document Mutation Pipeline</strong>:</li>
+<li>Overrides gradient clips (<code>bg-clip-text text-transparent</code>) to enforce solid <code>#FFFFFF</code> white headers and <code>#34D399</code> emerald scores.</li>
+<li>Locks background color to <code>#0B0F19</code> (Midnight Navy).</li>
+<li>Scans for all accordion containers (<code>data-accordion-content</code>) and expands them to <code>display: block</code> with <code>height: auto</code> so that all question breakdowns, critiques, and model answers are visible in the PDF.</li>
+<li><strong>jsPDF (<code>2.5.2</code>)</strong>:</li>
+<li>Converts the rasterized canvas into an A4 vector document.</li>
+<li>Dynamically calculates aspect ratios, page splits, and margins.</li>
+<li>Embeds candidate photo with live webcam verification watermark and timestamp.</li>
+</ul>
+<hr />
+<h2 id="10-security-data-privacy--edge-governance">10. Security, Data Privacy & Edge Governance <a class="anchor-link" href="#10-security-data-privacy--edge-governance">#</a></h2>
+<ol>
+<li><strong>Client-Side Edge Privacy</strong>:</li>
+</ol>
+<ul>
+<li>Zero webcam video streaming: all face landmark calculations occur exclusively within the local browser WebAssembly sandbox.</li>
+<li>Candidate snapshot photo is stored strictly in the candidate's browser <code>localStorage</code> and sent nowhere except into their own exported PDF.</li>
+</ul>
+<ol>
+<li><strong>Credential Isolation</strong>:</li>
+</ol>
+<ul>
+<li><code>GEMINI_API_KEY</code> is maintained exclusively on the backend server (<code>server/.env</code>).</li>
+<li>The Next.js frontend never bundles or exposes API secrets to client-side assets.</li>
+</ul>
+<ol>
+<li><strong>CORS & WebSocket Security</strong>:</li>
+</ol>
+<ul>
+<li>FastAPI CORS middleware configured with explicit allowed origins (<code>http://localhost:3000</code>).</li>
+<li>WebSocket handshakes validated on session establishment.</li>
+</ul>
+<hr />
+<h2 id="11-hardware-os--browser-compatibility-matrix">11. Hardware, OS & Browser Compatibility Matrix <a class="anchor-link" href="#11-hardware-os--browser-compatibility-matrix">#</a></h2>
+<div class="table-responsive"><table>
+<thead><tr>
+<th>Category</th>
+<th>Recommended Specification</th>
+<th>Minimum Specification</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Operating System</strong></td>
+<td>macOS 14+ (Apple Silicon), Windows 11, Ubuntu 22.04+</td>
+<td>macOS 11+, Windows 10, Linux</td>
+<td>Fully cross-platform</td>
+</tr>
+<tr>
+<td><strong>Web Browser</strong></td>
+<td>Google Chrome 110+, Brave, Arc, Edge 110+</td>
+<td>Chrome 90+, Safari 15+, Firefox 110+</td>
+<td>Chromium recommended for native Web Speech API</td>
+</tr>
+<tr>
+<td><strong>Processor (CPU)</strong></td>
+<td>Apple M-Series or Intel/AMD 4-Core+</td>
+<td>Dual-Core 2.0 GHz</td>
+<td>MediaPipe runs smoothly on 2+ cores</td>
+</tr>
+<tr>
+<td><strong>Memory (RAM)</strong></td>
+<td>8 GB or higher</td>
+<td>4 GB</td>
+<td>MediaPipe + Next.js + FastAPI</td>
+</tr>
+<tr>
+<td><strong>Camera</strong></td>
+<td>720p or 1080p Webcam</td>
+<td>480p Web Camera</td>
+<td>Any standard USB/built-in webcam</td>
+</tr>
+<tr>
+<td><strong>Microphone</strong></td>
+<td>Built-in or external USB/Bluetooth mic</td>
+<td>Built-in mic</td>
+<td>Audio input sensitivity calibration included</td>
+</tr>
+</tbody></table></div>
+<hr />
+<h2 id="12-full-dependency-manifest-with-exact-versions">12. Full Dependency Manifest with Exact Versions <a class="anchor-link" href="#12-full-dependency-manifest-with-exact-versions">#</a></h2>
+<h3 id="client-side-clientpackagejson">Client-Side (<code>client/package.json</code>) <a class="anchor-link" href="#client-side-clientpackagejson">#</a></h3>
+<div class="code-container"><div class="code-header"><span>json</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-json">{
+  &quot;dependencies&quot;: {
+    &quot;@mediapipe/camera_utils&quot;: &quot;^0.3.1675466862&quot;,
+    &quot;@mediapipe/face_mesh&quot;: &quot;^0.4.1633559619&quot;,
+    &quot;clsx&quot;: &quot;^2.1.1&quot;,
+    &quot;framer-motion&quot;: &quot;^11.11.9&quot;,
+    &quot;html2canvas&quot;: &quot;^1.4.1&quot;,
+    &quot;jspdf&quot;: &quot;^2.5.2&quot;,
+    &quot;lucide-react&quot;: &quot;^0.453.0&quot;,
+    &quot;next&quot;: &quot;14.2.15&quot;,
+    &quot;react&quot;: &quot;^18.3.1&quot;,
+    &quot;react-dom&quot;: &quot;^18.3.1&quot;,
+    &quot;tailwind-merge&quot;: &quot;^2.5.4&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@types/node&quot;: &quot;^20.17.0&quot;,
+    &quot;@types/react&quot;: &quot;^18.3.12&quot;,
+    &quot;@types/react-dom&quot;: &quot;^18.3.1&quot;,
+    &quot;autoprefixer&quot;: &quot;^10.4.20&quot;,
+    &quot;postcss&quot;: &quot;^8.4.47&quot;,
+    &quot;tailwindcss&quot;: &quot;^3.4.14&quot;,
+    &quot;typescript&quot;: &quot;^5.6.3&quot;
+  }
+}</code></pre></div>
+<h3 id="server-side-serverrequirementstxt">Server-Side (<code>server/requirements.txt</code>) <a class="anchor-link" href="#server-side-serverrequirementstxt">#</a></h3>
+<div class="code-container"><div class="code-header"><span>code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-">fastapi&gt;=0.115.0
+uvicorn[standard]&gt;=0.30.0
+websockets&gt;=12.0
+pydantic&gt;=2.7.0
+google-genai&gt;=1.0.0
+python-dotenv&gt;=1.0.0
+httpx&gt;=0.27.0</code></pre></div>
+<hr />
+<p><em>InterviewX — Designed and Engineered with Next.js 14, FastAPI, MediaPipe, and Google Gemini 2.5 Flash.</em></p>
+  </main>
+
+  <footer>
+    <p>InterviewX — Autonomous Multimodal Technical Interview Platform &bull; Powered by Google Gemini 2.5 Flash, Next.js 14, and FastAPI</p>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const pre = button.parentElement.nextElementSibling;
+      const code = pre.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const oldText = button.innerText;
+        button.innerText = "Copied!";
+        setTimeout(() => { button.innerText = oldText; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

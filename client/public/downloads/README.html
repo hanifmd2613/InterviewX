@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>README — Platform Manual — InterviewX Documentation</title>
+  <style>
+    :root {
+      --bg-canvas: #0B0F19;
+      --bg-surface: #111827;
+      --bg-card: #1F2937;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-indigo: #6366F1;
+      --accent-violet: #8B5CF6;
+      --accent-emerald: #34D399;
+      --accent-cyan: #06B6D4;
+      --border-color: #334155;
+      --code-bg: #0F172A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Header Nav Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #4F46E5, #9333EA);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: monospace;
+      font-weight: 700;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    .btn:hover {
+      background: var(--bg-card);
+      border-color: #475569;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4338CA, #6D28D9);
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-emerald:hover {
+      background: rgba(16, 185, 129, 0.25);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: #FFFFFF;
+      font-weight: 700;
+      margin-top: 1.8em;
+      margin-bottom: 0.6em;
+      line-height: 1.3;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-top: 0.5em;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: #E2E8F0;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+      color: #CBD5E1;
+    }
+
+    a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .anchor-link {
+      opacity: 0;
+      margin-left: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    h1:hover .anchor-link,
+    h2:hover .anchor-link,
+    h3:hover .anchor-link {
+      opacity: 0.6;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 1.2em;
+      color: #CBD5E1;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9em;
+      background: var(--code-bg);
+      color: #F472B6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .code-container {
+      background: #090D16;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1.5em 0;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      background: #131A2A;
+      border-bottom: 1px solid var(--border-color);
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #94A3B8;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: #1E293B;
+      color: #fff;
+    }
+
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: #E2E8F0;
+      font-size: 0.88rem;
+      display: block;
+      line-height: 1.5;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin: 1.5em 0;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      text-align: left;
+    }
+
+    th {
+      background: #131A2A;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #E2E8F0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #CBD5E1;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border-color);
+      margin: 2.5em 0;
+    }
+
+    .inline-img {
+      margin: 4px 4px 4px 0;
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      .top-bar, .copy-btn, .anchor-link {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+      }
+      .container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      h1, h2, h3, h4 {
+        color: #000000 !important;
+      }
+      p, li, td {
+        color: #333333 !important;
+      }
+      .code-container {
+        background: #F8FAFC !important;
+        border: 1px solid #CBD5E1 !important;
+      }
+      pre code {
+        color: #0F172A !important;
+      }
+      th {
+        background: #F1F5F9 !important;
+        color: #000000 !important;
+        border-bottom: 1px solid #CBD5E1 !important;
+      }
+      td {
+        border-bottom: 1px solid #E2E8F0 !important;
+      }
+      code {
+        background: #F1F5F9 !important;
+        color: #B91C1C !important;
+        border: 1px solid #E2E8F0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <a href="/" class="brand-logo">
+      <span class="brand-badge">IX</span>
+      <span>InterviewX Documentation</span>
+    </a>
+    <div class="action-group">
+      <a href="/downloads/README.md" download class="btn btn-emerald">
+        <span>⬇️ Download Markdown (.md)</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <span>🖨️ Print / Save as PDF</span>
+      </button>
+      <a href="/downloads/InterviewX_Documentation_Bundle.zip" download class="btn">
+        <span>📦 Download All (.zip)</span>
+      </a>
+      <a href="/docs" class="btn">
+        <span>📚 Docs Hub</span>
+      </a>
+      <a href="/" class="btn">
+        <span>🏠 Home</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 id="interviewx--autonomous-multimodal-technical-interview-platform">InterviewX — Autonomous Multimodal Technical Interview Platform 🎙️👁️🤖 <a class="anchor-link" href="#interviewx--autonomous-multimodal-technical-interview-platform">#</a></h1>
+<div align="center">
+<p>!<a href="https://img.shields.io/badge/Platform-InterviewX-6366F1?style=for-the-badge" target="_blank" rel="noopener noreferrer">InterviewX Platform</a></p>
+<p>!<a href="https://img.shields.io/badge/Frontend-Next.js%2014%20App%20Router-black?style=for-the-badge&logo=next.js" target="_blank" rel="noopener noreferrer">Next.js 14</a></p>
+<p>!<a href="https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi" target="_blank" rel="noopener noreferrer">FastAPI</a></p>
+<p>!<a href="https://img.shields.io/badge/AI%20Engine-Gemini%202.5%20Flash-4285F4?style=for-the-badge&logo=google" target="_blank" rel="noopener noreferrer">Google Gemini 2.5</a></p>
+<p>!<a href="https://img.shields.io/badge/Computer%20Vision-MediaPipe%20FaceMesh-00C4CC?style=for-the-badge" target="_blank" rel="noopener noreferrer">MediaPipe</a></p>
+<p>!<a href="https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript" target="_blank" rel="noopener noreferrer">TypeScript</a></p>
+<p>!<a href="https://img.shields.io/badge/Language-Python%203.12-3776AB?style=for-the-badge&logo=python" target="_blank" rel="noopener noreferrer">Python 3.12</a></p>
+<p><strong>Simulate high-stakes technical engineering interviews with real-time vocal cadence analytics, computer vision attention tracking, neural voice synthesis, and comprehensive Gemini-powered architectural critique.</strong></p>
+<p><a href="#-quickstart-guide" target="_blank" rel="noopener noreferrer">Quickstart</a> • <a href="#-core-features" target="_blank" rel="noopener noreferrer">Core Features</a> • <a href="#-system-architecture" target="_blank" rel="noopener noreferrer">System Architecture</a> • <a href="#-api--websocket-reference" target="_blank" rel="noopener noreferrer">API Reference</a> • <a href="#-audio--camera-troubleshooting" target="_blank" rel="noopener noreferrer">Microphone & Camera Guide</a></p>
+</div>
+<hr />
+<h2 id="overview">🌟 Overview <a class="anchor-link" href="#overview">#</a></h2>
+<p><strong>InterviewX</strong> is a full-stack, multimodal AI technical interview simulation platform. It replicates an authentic Silicon Valley / Big Tech engineering interview experience:</p>
+<ul>
+<li><strong>Speaks questions aloud</strong> using natural executive pacing and prosody.</li>
+<li><strong>Listens and transcribes answers in real-time</strong> via dual engines (Web Speech API + Gemini 2.5 Flash Multimodal Audio Transcriber fallback).</li>
+<li><strong>Tracks visual attention and posture</strong> via an on-device MediaPipe 468-landmark FaceMesh tracker with movable picture-in-picture window.</li>
+<li><strong>Captures live candidate verification photos</strong> and embeds them directly into certified PDF report cards.</li>
+<li><strong>Evaluates answers instantly</strong> with objective architectural scoring, WPM pacing analysis, and exemplary "Better Answer" phrasing.</li>
+<li><strong>Exports high-contrast printable PDF report cards</strong> with white/emerald typography on a Midnight Navy canvas.</li>
+</ul>
+<hr />
+<h2 id="core-features">🚀 Core Features <a class="anchor-link" href="#core-features">#</a></h2>
+<h3 id="1--natural-voice-synthesis-ai-senior-interviewer">1. 🎙️ Natural Voice Synthesis ("AI Senior Interviewer") <a class="anchor-link" href="#1--natural-voice-synthesis-ai-senior-interviewer">#</a></h3>
+<ul>
+<li><strong>Fluent Conversational Pacing</strong>: Calibrated 0.94x speech delivery with breathing pauses and technical acronym expansion (A.P.I., Kubernetes, C.I./C.D., PostgreSQL).</li>
+<li><strong>Read Question Out Loud</strong>: 1-click voice replay with automatic audio context unmuting.</li>
+<li><strong>Voice Tuning Studio</strong>: Modal to audition and select regional accents (US, UK, Australia) and delivery speeds (Calm, Executive, Brisk).</li>
+<li><strong>Explain Simply</strong>: Explains complex question intent in plain English with a suggested conversational opening sentence.</li>
+</ul>
+<h3 id="2--resilient-dual-engine-speech-recognition">2. 🎤 Resilient Dual-Engine Speech Recognition <a class="anchor-link" href="#2--resilient-dual-engine-speech-recognition">#</a></h3>
+<ul>
+<li><strong>Real-Time Web Audio Amplitude Meter</strong>: High-sensitivity time-domain RMS/peak volume analyzer with dynamic visualizer bars that dance to your voice.</li>
+<li><strong>Dual-Engine Speech Recognition</strong>:</li>
+<li><strong>Engine A</strong>: Client-side Web Speech API for instantaneous transcription, live word counts, and WPM computation.</li>
+<li><strong>Engine B (Gemini Neural Backup)</strong>: If browser speech recognition is blocked, drops words, or encounters cloud network timeouts, the system automatically sends recorded audio chunks to backend Gemini 2.5 Flash (<code>/api/transcribe-audio</code>) for 100% transcription reliability.</li>
+<li><strong>Speech Cadence Analytics</strong>: Monitors verbal filler words (<code>"um"</code>, <code>"uh"</code>, <code>"like"</code>, <code>"basically"</code>, <code>"literally"</code>) and calculates words-per-minute (optimal: 120–165 WPM).</li>
+<li><strong>Typing Fallback</strong>: Full support for typing answers if working in quiet or restricted environments.</li>
+</ul>
+<h3 id="3--movable-computer-vision-attention-tracker">3. 👁️ Movable Computer Vision Attention Tracker <a class="anchor-link" href="#3--movable-computer-vision-attention-tracker">#</a></h3>
+<ul>
+<li><strong>MediaPipe 468-Point FaceMesh</strong>: Client-side, privacy-first computer vision tracking eye contact ratio, iris gaze vectors, and head tilt/slouching.</li>
+<li><strong>Movable & Resizable PIP Window</strong>: Drag the vision tracker anywhere on your screen or toggle between standard and enlarged modes.</li>
+<li><strong>📸 Candidate Photo Capture</strong>: Prominent shutter button allows candidates to take their photo with real-time flash animation and thumbnail preview. Auto-captures a backup photo upon first face detection.</li>
+<li><strong>Live Gaze HUD</strong>: Visual feedback indicating whether you maintain direct camera eye contact during technical explanations.</li>
+</ul>
+<h3 id="4--gemini-doubt-assistant">4. 🧠 Gemini Doubt Assistant <a class="anchor-link" href="#4--gemini-doubt-assistant">#</a></h3>
+<ul>
+<li><strong>In-Interview AI Doubt Resolution</strong>: Candidate can ask doubts, clarify edge cases, or request conceptual hints without sacrificing evaluation scores.</li>
+<li><strong>Multimodal Voice Input</strong>: Speak doubts using your microphone or choose from pre-built prompt pills.</li>
+<li><strong>Context-Aware Responses</strong>: Tailored specifically to the active interview question, candidate role, and seniority level.</li>
+</ul>
+<h3 id="5--comprehensive-evaluation--high-contrast-pdf-export">5. 📊 Comprehensive Evaluation & High-Contrast PDF Export <a class="anchor-link" href="#5--comprehensive-evaluation--high-contrast-pdf-export">#</a></h3>
+<ul>
+<li><strong>Weighted 4-Tier Scoring Rubric</strong>:</li>
+<li><code>40%</code> Technical Depth & Architecture</li>
+<li><code>30%</code> Delivery, Cadence & Filler Word Absence</li>
+<li><code>20%</code> Job Description Alignment</li>
+<li><code>10%</code> Eye Contact & Posture Composure</li>
+<li><strong>Competency Radar Chart</strong>: 6-axis SVG visual distribution (Technical, Delivery, Relevance, Clarity, Confidence, Eye Contact).</li>
+<li><strong>Exemplary "Better Answer" Phrasing</strong>: Senior/Staff-level model answers for every question.</li>
+<li><strong>Verified Candidate Profile</strong>: Embeds candidate webcam photo, Google verification status, and completion timestamp.</li>
+<li><strong>High-Contrast Dark PDF Export</strong>: Custom <code>html2canvas</code> / <code>jsPDF</code> pipeline rendering crisp <code>#FFFFFF</code> white and <code>#34D399</code> emerald typography on <code>#0B0F19</code> Midnight Navy background.</li>
+</ul>
+<hr />
+<h2 id="quickstart-guide">⚡ Quickstart Guide <a class="anchor-link" href="#quickstart-guide">#</a></h2>
+<h3 id="option-1-1-click-startup-script-recommended">Option 1: 1-Click Startup Script (Recommended) <a class="anchor-link" href="#option-1-1-click-startup-script-recommended">#</a></h3>
+<p>From the project root directory, run:</p>
+<div class="code-container"><div class="code-header"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">./start.sh</code></pre></div>
+<p>This script validates your Python virtual environment, starts the FastAPI backend on port 8000, and boots the Next.js frontend on port 3000.</p>
+<hr />
+<h3 id="option-2-manual-step-by-step-setup">Option 2: Manual Step-by-Step Setup <a class="anchor-link" href="#option-2-manual-step-by-step-setup">#</a></h3>
+<h4 id="1-prerequisites">1. Prerequisites <a class="anchor-link" href="#1-prerequisites">#</a></h4>
+<ul>
+<li><strong>Node.js</strong>: <code>v18.17.0+</code> (Node 20+ recommended)</li>
+<li><strong>Python</strong>: <code>3.10+</code> (Python 3.12 recommended)</li>
+<li><strong>Google Gemini API Key</strong>: Obtain from <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.</li>
+</ul>
+<h4 id="2-backend-setup">2. Backend Setup <a class="anchor-link" href="#2-backend-setup">#</a></h4>
+<div class="code-container"><div class="code-header"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">cd server
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+# Open .env and insert your GEMINI_API_KEY:
+# GEMINI_API_KEY=AIzaSy...
+
+# Start the FastAPI server
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload</code></pre></div>
+<p><em>Backend runs on <code>http://localhost:8000</code> (Swagger docs available at <code>http://localhost:8000/docs</code>).</em></p>
+<h4 id="3-frontend-setup">3. Frontend Setup <a class="anchor-link" href="#3-frontend-setup">#</a></h4>
+<div class="code-container"><div class="code-header"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">cd client
+
+# Install frontend dependencies
+npm install
+
+# Start development server
+npm run dev</code></pre></div>
+<p><em>Frontend runs on <code>http://localhost:3000</code>.</em></p>
+<hr />
+<h2 id="system-architecture">🏗️ System Architecture <a class="anchor-link" href="#system-architecture">#</a></h2>
+<div class="code-container"><div class="code-header"><span>code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-">preppulse-ai/
+├── server/
+│   ├── main.py                     # FastAPI REST API &amp; WebSocket /ws/interview handler
+│   ├── requirements.txt            # Python dependencies (fastapi, uvicorn, pydantic, google-genai)
+│   ├── .env                        # Server configuration &amp; GEMINI_API_KEY
+│   ├── test_backend.py             # Automated test suite
+│   └── services/
+│       ├── llm_evaluator.py        # Gemini 2.5 Flash structured evaluation, STT &amp; doubt assistant
+│       └── analytics.py            # WPM pacing heuristics, filler word regex &amp; scoring rubric
+│
+├── client/
+│   ├── app/
+│   │   ├── page.tsx                # Role &amp; JD calibration screen
+│   │   ├── interview/page.tsx      # Active mock interview room with controls &amp; dialogue timeline
+│   │   ├── report/page.tsx         # Certified report card &amp; high-contrast PDF export
+│   │   └── globals.css             # Tailwind dark-mode styles &amp; midnight navy theme
+│   ├── components/
+│   │   ├── WebcamTracker.tsx       # MediaPipe FaceMesh vision HUD &amp; candidate snapshot capture
+│   │   ├── CompetencyRadar.tsx     # SVG 6-axis competency radar distribution
+│   │   ├── GeminiAssistantModal.tsx# Floating AI doubt assistant with voice input
+│   │   ├── VoiceSettingsModal.tsx  # Speech synthesizer voice &amp; cadence audition modal
+│   │   ├── GoogleAuthButton.tsx    # Google Identity Services / One-tap sign-in
+│   │   └── Navbar.tsx              # Brand header &amp; room status indicator
+│   ├── hooks/
+│   │   ├── useVoiceInterviewer.ts  # Web Speech Synthesis, fluency optimization &amp; voice ranking
+│   │   └── useSpeechAnalysis.ts    # Dual-engine audio capture, RMS volume meter &amp; Gemini STT
+│   └── types/
+│       └── interview.ts            # TypeScript interfaces for session, evaluation, and reports
+│
+├── start.sh                        # 1-Click launch script for backend &amp; frontend
+└── README.md                       # Comprehensive platform documentation</code></pre></div>
+<hr />
+<h2 id="api--websocket-reference">📡 API & WebSocket Reference <a class="anchor-link" href="#api--websocket-reference">#</a></h2>
+<h3 id="rest-endpoints">REST Endpoints <a class="anchor-link" href="#rest-endpoints">#</a></h3>
+<div class="table-responsive"><table>
+<thead><tr>
+<th>Method</th>
+<th>Route</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/init-session</code></td>
+<td>Generates a 5-question interview plan calibrated to role, level, and JD.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/evaluate-answer</code></td>
+<td>Evaluates a single answer on Technical Depth, Relevance, and Delivery.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/conversational-turn</code></td>
+<td>Formulates conversational interviewer speech and follow-up probes.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/explain-question</code></td>
+<td>Generates plain-English breakdown and suggested opening sentence.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/clarify-doubt</code></td>
+<td>Interactive Q&A for doubts and edge-case assistance.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/transcribe-audio</code></td>
+<td>Gemini 2.5 Flash multimodal audio transcriber for candidate speech.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/final-report</code></td>
+<td>Synthesizes full 4-tier report card, radar metrics, and executive summary.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/session/{id}</code></td>
+<td>Retrieves session state and question history.</td>
+</tr>
+</tbody></table></div>
+<h3 id="websocket-endpoint-wsinterview">WebSocket Endpoint (<code>/ws/interview</code>) <a class="anchor-link" href="#websocket-endpoint-wsinterview">#</a></h3>
+<p>Bidirectional low-latency communication protocol:</p>
+<ul>
+<li><strong>Client -> Server</strong>:</li>
+<li><code>join_session</code>: Authenticates and joins interview room.</li>
+<li><code>submit_answer</code>: Submits candidate transcript or audio buffer for instant critique.</li>
+<li><code>skip_question</code>: Skips current question and requests the next turn.</li>
+<li><code>request_final_report</code>: Requests synthesis of final evaluation report card.</li>
+<li><strong>Server -> Client</strong>:</li>
+<li><code>turn_evaluation</code>: Returns live score, critique, and follow-up question.</li>
+<li><code>final_report</code>: Returns comprehensive report payload.</li>
+</ul>
+<hr />
+<h2 id="audio--camera-troubleshooting">🔧 Audio & Camera Troubleshooting <a class="anchor-link" href="#audio--camera-troubleshooting">#</a></h2>
+<h3 id="1-microphone-not-listening-macos--chrome">1. Microphone Not Listening (macOS / Chrome) <a class="anchor-link" href="#1-microphone-not-listening-macos--chrome">#</a></h3>
+<ol>
+<li><strong>Check Address Bar Permissions</strong>: Click the lock or camera icon on the left side of the address bar (<code>localhost:3000</code>) and ensure <strong>Microphone</strong> is set to <strong>Allow</strong>.</li>
+<li><strong>System Preferences on macOS</strong>:</li>
+</ol>
+<ul>
+<li>Open <strong>System Settings > Privacy & Security > Microphone</strong>.</li>
+<li>Verify that your browser (Google Chrome, Brave, Arc, or Safari) is toggled <strong>ON</strong>.</li>
+</ul>
+<ol>
+<li><strong>Sound Input Volume</strong>:</li>
+</ol>
+<ul>
+<li>Open <strong>System Settings > Sound > Input</strong>.</li>
+<li>Select your active microphone and speak. Ensure the input volume meter shows active movement.</li>
+</ul>
+<ol>
+<li><strong>Use In-App "Test Mic" Button</strong>:</li>
+</ol>
+<ul>
+<li>Click the <strong>"Test Mic"</strong> button on the interview page. It performs a 3-second sound check with live feedback.</li>
+</ul>
+<ol>
+<li><strong>Gemini Transcriber Safety Net</strong>: Even if the browser's Web Speech API is blocked, InterviewX's background recorder captures audio and uses Gemini 2.5 Flash to transcribe your speech automatically.</li>
+</ol>
+<h3 id="2-read-question-audio">2. "Read Question" Audio <a class="anchor-link" href="#2-read-question-audio">#</a></h3>
+<ul>
+<li>Web browsers require user interaction before playing audio. Click anywhere in the room, or click <strong>"Read Question"</strong> to unlock the browser audio pipeline.</li>
+<li>You can change voices or test speech delivery at any time by clicking the <strong>Voice</strong> button in the header.</li>
+</ul>
+<h3 id="3-camera--candidate-photo-capture">3. Camera & Candidate Photo Capture <a class="anchor-link" href="#3-camera--candidate-photo-capture">#</a></h3>
+<ul>
+<li>When prompted, grant <strong>Camera</strong> access in your browser.</li>
+<li>Position your face in the center of the frame. The tracker will display a green indicator when your face is detected.</li>
+<li>Click <strong>"Take Photo for Report"</strong> in the camera window. A camera flash confirms your photo is saved and will appear on your final evaluation PDF.</li>
+</ul>
+<hr />
+<h2 id="testing--verification">🧪 Testing & Verification <a class="anchor-link" href="#testing--verification">#</a></h2>
+<h3 id="frontend-typescript--build-check">Frontend TypeScript & Build Check <a class="anchor-link" href="#frontend-typescript--build-check">#</a></h3>
+<div class="code-container"><div class="code-header"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">cd client
+# Validate TypeScript
+npx tsc --noEmit
+
+# Test Production Build
+npm run build</code></pre></div>
+<h3 id="backend-automated-test-suite">Backend Automated Test Suite <a class="anchor-link" href="#backend-automated-test-suite">#</a></h3>
+<div class="code-container"><div class="code-header"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">cd server
+source venv/bin/activate
+python -m pytest test_backend.py -v</code></pre></div>
+<hr />
+<h2 id="license">📄 License <a class="anchor-link" href="#license">#</a></h2>
+<p>This project is licensed under the MIT License — see the LICENSE file for details.</p>
+<p>Developed with ❤️ using Google Gemini 2.5 Flash, Next.js, and FastAPI.</p>
+  </main>
+
+  <footer>
+    <p>InterviewX — Autonomous Multimodal Technical Interview Platform &bull; Powered by Google Gemini 2.5 Flash, Next.js 14, and FastAPI</p>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const pre = button.parentElement.nextElementSibling;
+      const code = pre.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const oldText = button.innerText;
+        button.innerText = "Copied!";
+        setTimeout(() => { button.innerText = oldText; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
