@@ -30,3 +30,5 @@ client/.env.local
 *.pem
 .vscode/
 .idea/
+*.tsbuildinfo
+
