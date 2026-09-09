@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # InterviewX — Autonomous Multimodal Technical Interview Platform 🎙️👁️🤖
 
 <div align="center">
@@ -244,7 +243,10 @@ python -m pytest test_backend.py -v
 This project is licensed under the MIT License — see the LICENSE file for details.
 
 Developed with ❤️ using Google Gemini 2.5 Flash, Next.js, and FastAPI.
+<<<<<<< HEAD
 =======
 # InterviewX
 AI Interview Selection test
 >>>>>>> 6035617376b5cc7bf0cb50475cc13363c0e152c6
+=======
+>>>>>>> 95da4e5 (feat: add vercel.json routing rewrite configuration and complete InterviewX platform)

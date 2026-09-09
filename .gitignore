@@ -1,8 +1,32 @@
+# Dependencies
 node_modules/
-**/node_modules/
+client/node_modules/
+
+# Next.js build output
 .next/
+client/.next/
 out/
-build/
-dist/
-.env*
+client/out/
+
+# Python Virtual Environment & Cache
+venv/
+server/venv/
+__pycache__/
+*.py[cod]
+*$py.class
+server/**/__pycache__/
+.pytest_cache/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+server/.env
+client/.env
+client/.env.local
+
+# OS & Editor files
 .DS_Store
+*.pem
+.vscode/
+.idea/
